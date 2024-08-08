@@ -91,7 +91,7 @@ export class UserFormComponent implements OnInit {
     const fixedProvidedRFC = providedRFC.slice(0, -3);
 
     if (this.showRFC && fixedGeneratedRFC !== fixedProvidedRFC) {
-      this.rfcError = `RFC does not match. Expected: ${fixedGeneratedRFC}`;
+      this.rfcError = `RFC does not match. Expected: ${fixedGeneratedRFC}XXX`;
       return;
     }
 
@@ -105,23 +105,27 @@ export class UserFormComponent implements OnInit {
     const doc = new jsPDF();
 
     doc.setFontSize(18);
-    doc.text("User Information", 20, 20);
+    doc.text("Información del usuario", 20, 20);
 
     doc.setFontSize(14);
     doc.text(
-      `Name: ${this.profileForm.value.firstName} ${this.profileForm.value.fatherLastName} ${this.profileForm.value.motherLastName}`,
+      `Nombre: ${this.profileForm.value.firstName} ${this.profileForm.value.fatherLastName} ${this.profileForm.value.motherLastName}`,
       20,
       30
     );
-    doc.text(`Birth Date: ${this.profileForm.value.birthDate}`, 20, 40);
-    doc.text(`Gender: ${this.profileForm.value.gender}`, 20, 50);
-    doc.text(`Nationality: ${this.profileForm.value.nationality}`, 20, 60);
+    doc.text(
+      `Fecha de nacimiento: ${this.profileForm.value.birthDate}`,
+      20,
+      40
+    );
+    doc.text(`Género: ${this.profileForm.value.gender}`, 20, 50);
+    doc.text(`Nacionalidad: ${this.profileForm.value.nationality}`, 20, 60);
     doc.text(`Club: ${this.profileForm.value.club}`, 20, 70);
     if (this.showRFC) {
       doc.text(`RFC: ${this.profileForm.value.rfc}`, 20, 80);
     }
-    doc.text(`Occupation: ${this.profileForm.value.ocupation}`, 20, 90);
+    doc.text(`Ocupación: ${this.profileForm.value.ocupation}`, 20, 90);
 
-    doc.save("user-information.pdf");
+    doc.save("usuario.pdf");
   }
 }
