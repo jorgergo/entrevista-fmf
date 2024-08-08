@@ -83,20 +83,46 @@
   </div>
   <div class="right-column" *ngIf="submitted">
     <div class="badge">
-      <h2>
-        {{ profileForm.value.firstName }}
-        {{ profileForm.value.fatherLastName }}
-        {{ profileForm.value.motherLastName }}
-      </h2>
-
-      <p>
-        <strong>Fecha de Nacimiento:</strong> {{ profileForm.value.birthDate }}
-      </p>
-      <p><strong>Género:</strong> {{ profileForm.value.gender }}</p>
-      <p><strong>Nacionalidad:</strong> {{ profileForm.value.nationality }}</p>
-      <p><strong>Club:</strong> {{ profileForm.value.club }}</p>
-      <p *ngIf="showRFC"><strong>RFC:</strong> {{ profileForm.value.rfc }}</p>
-      <p><strong>Ocupación:</strong> {{ profileForm.value.ocupation }}</p>
+      <div class="title">
+        <h2>
+          {{ profileForm.value.firstName }}
+          {{ profileForm.value.fatherLastName }}
+          {{ profileForm.value.motherLastName }}
+        </h2>
+      </div>
+      <div class="info">
+        <div class="logo">
+          <img
+            *ngIf="selectedClubLogo"
+            [src]="selectedClubLogo"
+            alt="Club Logo"
+            class="club-logo"
+          />
+        </div>
+        <div class="data">
+          <p>
+            <strong>Fecha de Nacimiento:</strong>
+            {{ profileForm.value.birthDate }}
+          </p>
+          <p><strong>Género:</strong> {{ profileForm.value.gender }}</p>
+          <p>
+            <strong>Nacionalidad:</strong> {{ profileForm.value.nationality }}
+          </p>
+          <p><strong>Club:</strong> {{ profileForm.value.club }}</p>
+          <p *ngIf="showRFC">
+            <strong>RFC:</strong> {{ profileForm.value.rfc }}
+          </p>
+          <p><strong>Ocupación:</strong> {{ profileForm.value.ocupation }}</p>
+        </div>
+      </div>
     </div>
+    <button
+      type="button"
+      *ngIf="showDownloadButton"
+      (click)="downloadPDF()"
+      class="form-button"
+    >
+      Download PDF
+    </button>
   </div>
 </div>

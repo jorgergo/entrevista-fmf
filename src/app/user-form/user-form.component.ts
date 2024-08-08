@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import jsPDF from "jspdf";
 
 import { nacionalidades } from "../data/nacionalidades";
 import { clubes } from "../data/clubes";
@@ -16,7 +17,9 @@ export class UserFormComponent implements OnInit {
   clubesOptions: string[] = [];
   showRFC: boolean = false;
   submitted: boolean = false;
+  showDownloadButton: boolean = false;
   rfcError: string = "";
+  selectedClubLogo: string = "";
 
   profileForm = new FormGroup({
     firstName: new FormControl("", Validators.required),
@@ -37,9 +40,13 @@ export class UserFormComponent implements OnInit {
     this.generosOptions = generos.map((g) => g.nombre);
     this.clubesOptions = clubes.map((c) => c.nombre);
 
-    // Subscribe to birthDate changes
     this.profileForm.get("birthDate").valueChanges.subscribe(() => {
       this.checkAge();
+    });
+
+    this.profileForm.get("club").valueChanges.subscribe((clubName) => {
+      const selectedClub = clubes.find((club) => club.nombre === clubName);
+      this.selectedClubLogo = selectedClub ? selectedClub.logo : "";
     });
   }
 
@@ -71,9 +78,8 @@ export class UserFormComponent implements OnInit {
     const month = (birthDate.getMonth() + 1).toString().padStart(2, "0");
     const day = (birthDate.getDate() + 1).toString().padStart(2, "0");
     const datePart = `${year}${month}${day}`;
-
     const homokey = "xxx";
-    console.log(`${day}`);
+
     return `${rfc}${datePart}${homokey}`;
   }
 
@@ -91,6 +97,31 @@ export class UserFormComponent implements OnInit {
 
     this.rfcError = "";
     this.submitted = true;
+    this.showDownloadButton = true;
     console.log(this.profileForm.value);
+  }
+
+  downloadPDF() {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("User Information", 20, 20);
+
+    doc.setFontSize(14);
+    doc.text(
+      `Name: ${this.profileForm.value.firstName} ${this.profileForm.value.fatherLastName} ${this.profileForm.value.motherLastName}`,
+      20,
+      30
+    );
+    doc.text(`Birth Date: ${this.profileForm.value.birthDate}`, 20, 40);
+    doc.text(`Gender: ${this.profileForm.value.gender}`, 20, 50);
+    doc.text(`Nationality: ${this.profileForm.value.nationality}`, 20, 60);
+    doc.text(`Club: ${this.profileForm.value.club}`, 20, 70);
+    if (this.showRFC) {
+      doc.text(`RFC: ${this.profileForm.value.rfc}`, 20, 80);
+    }
+    doc.text(`Occupation: ${this.profileForm.value.ocupation}`, 20, 90);
+
+    doc.save("user-information.pdf");
   }
 }

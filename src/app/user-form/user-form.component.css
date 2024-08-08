@@ -64,9 +64,28 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.badge h2 {
-  text-align: left;
+.badge .title {
+  text-align: center;
   margin-bottom: 20px;
+}
+
+.badge .info {
+  display: flex;
+  align-items: flex-start;
+}
+
+.badge .logo {
+  flex: 0 0 auto;
+  margin-right: 20px;
+}
+
+.badge .club-logo {
+  width: 64px;
+  height: 64px;
+}
+
+.badge .data {
+  flex: 1;
 }
 
 .badge p {
