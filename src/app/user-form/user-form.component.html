@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="left-column">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="user-form">
+      <label>
+        Nombre:
+        <input
+          type="text"
+          name="firstName"
+          formControlName="firstName"
+          class="form-input"
+        />
+      </label>
+      <label> Apellido Paterno: </label>
+      <input
+        type="text"
+        name="fatherLastName"
+        formControlName="fatherLastName"
+        class="form-input"
+      />
+      <label> Apellido Materno: </label>
+      <input
+        type="text"
+        name="motherLastName"
+        formControlName="motherLastName"
+        class="form-input"
+      />
+      <label> Fecha de Nacimiento: </label>
+      <input
+        type="date"
+        name="birthDate"
+        formControlName="birthDate"
+        class="form-input"
+      />
+
+      <label> Género: </label>
+      <select name="gender" formControlName="gender" class="form-select">
+        <option *ngFor="let option of generosOptions" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+
+      <label> Nacionalidad: </label>
+      <select
+        name="nationality"
+        formControlName="nationality"
+        class="form-select"
+      >
+        <option *ngFor="let option of nacionalidadesOptions" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+
+      <label> Club: </label>
+      <select name="club" formControlName="club" class="form-select">
+        <option *ngFor="let option of clubesOptions" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+
+      <div *ngIf="showRFC">
+        <label> RFC: </label>
+        <input
+          type="text"
+          name="rfc"
+          formControlName="rfc"
+          class="form-input"
+        />
+        <div *ngIf="rfcError" class="error">{{ rfcError }}</div>
+      </div>
+
+      <label> Ocupación: </label>
+      <input
+        type="text"
+        name="ocupation"
+        formControlName="ocupation"
+        class="form-input"
+      />
+
+      <button type="submit" [disabled]="!profileForm.valid" class="form-button">
+        Enviar
+      </button>
+    </form>
+  </div>
+  <div class="right-column" *ngIf="submitted">
+    <div class="badge">
+      <h2>
+        {{ profileForm.value.firstName }}
+        {{ profileForm.value.fatherLastName }}
+        {{ profileForm.value.motherLastName }}
+      </h2>
+
+      <p>
+        <strong>Fecha de Nacimiento:</strong> {{ profileForm.value.birthDate }}
+      </p>
+      <p><strong>Género:</strong> {{ profileForm.value.gender }}</p>
+      <p><strong>Nacionalidad:</strong> {{ profileForm.value.nationality }}</p>
+      <p><strong>Club:</strong> {{ profileForm.value.club }}</p>
+      <p *ngIf="showRFC"><strong>RFC:</strong> {{ profileForm.value.rfc }}</p>
+      <p><strong>Ocupación:</strong> {{ profileForm.value.ocupation }}</p>
+    </div>
+  </div>
+</div>
